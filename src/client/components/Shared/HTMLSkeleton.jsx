@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {MAGIC_HYDRATION_CONTAINER} from '@client/constants';
 import ssr from '@client/helpers/ssr';
 
 const getExposedJSON = () => (
@@ -46,7 +47,9 @@ const HTMLSkeleton = ({
       </head>
 
       <body>
-        {childs}
+        <div id={MAGIC_HYDRATION_CONTAINER}>
+          {childs}
+        </div>
 
         {hydrateData && (
           <JsonProvider json={hydrateData} />

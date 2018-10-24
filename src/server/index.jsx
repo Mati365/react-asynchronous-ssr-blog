@@ -1,5 +1,6 @@
 import React from 'react';
 import express from 'express';
+import path from 'path';
 import * as R from 'ramda';
 
 import {MAGIC_ASYNC_DATA_CONTEXT} from '@client/constants';
@@ -18,39 +19,48 @@ const asyncFullRenderer = R.compose(
 
 const app = express();
 
-app.get('/', async (req, res) => {
-  const asyncContext = {
-    promises: {},
-    cache: {},
-  };
+app
+  .use(
+    '/public',
+    express.static(path.join(__dirname, 'public')),
+  )
+  .get('/', async (req, res) => {
+    const manifest = __non_webpack_require__('./manifest.json'); // eslint-disable-line
+    const asyncContext = {
+      promises: {},
+      cache: {},
+    };
 
-  // first render
-  let renderedComponent = asyncFullRenderer(
-    asyncContext,
-    <AppRoot />,
-  );
-
-  // if renderd tree contains promises, render again
-  if (!R.isEmpty(asyncContext.promises)) {
-    const data = await mapObjValuesToPromise(
-      R.identity,
-      asyncContext.promises,
+    // first render
+    let renderedComponent = asyncFullRenderer(
+      asyncContext,
+      <AppRoot />,
     );
 
-    renderedComponent = asyncFullRenderer(
-      {
-        promises: {},
-        cache: data,
-      },
-      <AppRoot
-        hydrateData={{
-          [MAGIC_ASYNC_DATA_CONTEXT]: data,
-        }}
-      />,
-    );
-  }
+    // if renderd tree contains promises, render again
+    if (!R.isEmpty(asyncContext.promises)) {
+      const data = await mapObjValuesToPromise(
+        R.identity,
+        asyncContext.promises,
+      );
 
-  res.send(renderedComponent);
-});
+      renderedComponent = asyncFullRenderer(
+        {
+          promises: {},
+          cache: data,
+        },
+        <AppRoot
+          scripts={[
+            manifest['main.js'],
+          ]}
+          hydrateData={{
+            [MAGIC_ASYNC_DATA_CONTEXT]: data,
+          }}
+        />,
+      );
+    }
+
+    res.send(renderedComponent);
+  });
 
 app.listen(3000);

@@ -46,10 +46,8 @@ class AsyncComponent extends React.Component {
   }
 
   async componentDidMount() {
-    const {
-      loading,
-      promiseFn,
-    } = this.state;
+    const {promiseFn} = this.props;
+    const {loading} = this.state;
 
     if (!ssr && loading) {
       const data = await promiseFn();

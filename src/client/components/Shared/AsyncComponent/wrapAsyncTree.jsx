@@ -9,7 +9,7 @@ const wrapAsyncTree = (Component) => {
   };
 
   const Wrapped = props => (
-    <AsyncContextProvider asyncContext={initialCacheStore}>
+    <AsyncContextProvider value={initialCacheStore}>
       <Component {...props} />
     </AsyncContextProvider>
   );

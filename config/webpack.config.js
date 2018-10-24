@@ -1,5 +1,6 @@
 const {resolve} = require('path');
 const nodeExternals = require('webpack-node-externals');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
@@ -18,6 +19,14 @@ const createConfig = ({
   entry,
   externals,
   plugins,
+  node: {
+    constants: false,
+    global: true,
+    process: true,
+    Buffer: true,
+    __dirname: false,
+    __filename: true,
+  },
   output: {
     path: OUTPUT_FOLDER,
     filename: outputFile,
@@ -102,6 +111,7 @@ module.exports = [
     entry: resolve(__dirname, '../src/client/index.jsx'),
     outputFile: 'public/client-[hash].js',
     plugins: [
+      new ManifestPlugin,
       new CleanWebpackPlugin(
         ['dist/'],
         {
