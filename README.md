@@ -1,9 +1,27 @@
 # react-asynchronous-ssr-blog
-School homework project. 
+School homework project.
+
+### Run
+```
+yarn install
+yarn run start
+```
+
+### ENV
+example:
+```
+DB_NAME=database
+DB_USER=user
+DB_PASSWORD=123456
+DB_HOST=localhost
+DB_PORT=5432
+
+API_URL=http://lvh.me:3000
+```
 
 ### Async API response rendering
 Server renders something like it:
-```  
+```
 <AsyncComponent
   promiseFn={() => timeout(100, 'xD')}
 >
@@ -14,7 +32,7 @@ Server renders something like it:
 ```
 
 collects promises:
-```      
+```
 const data = await mapObjValuesToPromise(
   R.identity,
   asyncContext.promises,
