@@ -33,6 +33,7 @@ module.exports = {
     'react/prop-types': 0,
     'react/forbid-prop-types': 0,
     'no-param-reassign': 0,
+    'global-require': 0,
     curly: 0,
     'new-parens': 0
   },

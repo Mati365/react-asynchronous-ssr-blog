@@ -41,6 +41,20 @@ const HTMLSkeleton = ({
     <html lang='pl'>
       <head>
         <meta charSet='UTF-8' />
+        <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' />
+        <style>
+          {`
+            html, body {
+              margin: 0, padding: 0;
+            }
+
+            * {
+              box-sizing: border-box;
+              font-family: Roboto;
+            }
+          `}
+        </style>
+
         {title && (
           <title>{title}</title>
         )}

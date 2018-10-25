@@ -58,7 +58,14 @@ const createConfig = ({
           loader: 'babel-loader',
           options: {
             presets: [
-              '@babel/preset-env', // polyfill for new browser
+              [
+                '@babel/preset-env',
+                {
+                  targets: {
+                    node: 'current',
+                  },
+                },
+              ], // polyfill for new browser
               '@babel/preset-react', // react jsx compiler
             ],
             plugins: [
@@ -101,6 +108,7 @@ const createConfig = ({
 
 const GLOBAL_ALIASES = {
   '@client': resolve(__dirname, '../src/client/'),
+  '@server': resolve(__dirname, '../src/server/'),
 };
 
 module.exports = [

@@ -11,12 +11,14 @@ export default
 @provideContext('asyncContext', AsyncPromisesContext)
 class AsyncComponent extends React.Component {
   static propTypes = {
+    keyValue: PropTypes.string,
     promiseFn: PropTypes.func.isRequired,
     loadingComponent: PropTypes.any,
   };
 
   static defaultProps = {
     loadingComponent: R.always(null),
+    keyValue: null,
   };
 
   constructor(props) {
@@ -46,18 +48,35 @@ class AsyncComponent extends React.Component {
   }
 
   async componentDidMount() {
+    const {loading} = this.state;
+
+    if (!ssr && loading)
+      this.triggerFetch();
+  }
+
+  componentDidUpdate(prevProps) {
+    const {keyValue} = this.props;
+    if (prevProps.keyValue !== keyValue)
+      this.triggerFetch();
+  }
+
+  triggerFetch = async () => {
     const {promiseFn} = this.props;
     const {loading} = this.state;
 
-    if (!ssr && loading) {
-      const data = await promiseFn();
-
+    if (!loading) {
       this.setState({
-        loading: false,
-        data,
+        loading: true,
       });
     }
-  }
+
+    const data = await promiseFn();
+
+    this.setState({
+      loading: false,
+      data,
+    });
+  };
 
   render() {
     const {
