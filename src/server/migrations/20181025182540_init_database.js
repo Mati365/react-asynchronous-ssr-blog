@@ -37,6 +37,9 @@ exports.up = knex => (
             .primary();
 
           table
+            .string('cover', 400);
+
+          table
             .string('userId', 36)
             .references('uuid')
             .inTable('User');
@@ -58,6 +61,20 @@ exports.up = knex => (
             .string('name')
             .unique()
             .notNullable();
+
+          addTimestamps(knex, table);
+        })
+
+        .createTable('PromotedTag', (table) => {
+          table
+            .increments('id')
+            .primary();
+
+          table
+            .integer('tagId')
+            .unsigned()
+            .references('id')
+            .inTable('Tag');
 
           addTimestamps(knex, table);
         })
@@ -101,6 +118,10 @@ exports.up = knex => (
             .primary();
 
           table
+            .string('icon')
+            .notNullable();
+
+          table
             .string('name')
             .unique()
             .notNullable();
@@ -139,6 +160,7 @@ exports.up = knex => (
 exports.down = knex => (
   knex
     .schema
+    .dropTableIfExists('PromotedTag')
     .dropTableIfExists('ArticleReaction')
     .dropTableIfExists('Reaction')
     .dropTableIfExists('Comment')

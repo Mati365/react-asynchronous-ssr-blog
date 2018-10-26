@@ -14,6 +14,7 @@ class Reaction extends Model {
     properties: {
       id: {type: 'number'},
       name: {type: 'string'},
+      icon: {type: 'string'},
     },
   };
 }

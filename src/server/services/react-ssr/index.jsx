@@ -17,15 +17,26 @@ const asyncFullRenderer = R.compose(
 
 const rootRoute = async (req, res) => {
   const manifest = __non_webpack_require__('./manifest.json'); // eslint-disable-line
+
   const asyncContext = {
     promises: {},
     cache: {},
   };
 
+  const sharedProps = {
+    routerProps: {
+      context: {},
+      location: req.originalUrl,
+    },
+    scripts: [
+      manifest['main.js'],
+    ],
+  };
+
   // first render
   let renderedComponent = asyncFullRenderer(
     asyncContext,
-    <AppRoot />,
+    <AppRoot {...sharedProps} />,
   );
 
   // if renderd tree contains promises, render again
@@ -41,9 +52,7 @@ const rootRoute = async (req, res) => {
         cache: data,
       },
       <AppRoot
-        scripts={[
-          manifest['main.js'],
-        ]}
+        {...sharedProps}
         hydrateData={{
           [MAGIC_ASYNC_DATA_CONTEXT]: data,
         }}
@@ -56,6 +65,8 @@ const rootRoute = async (req, res) => {
 
 export default (
   express
-    .Router()
-    .get('/', rootRoute)
+    .Router({
+      strict: true,
+    })
+    .get('*', rootRoute)
 );

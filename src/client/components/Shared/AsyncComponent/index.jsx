@@ -14,11 +14,13 @@ class AsyncComponent extends React.Component {
     keyValue: PropTypes.string,
     promiseFn: PropTypes.func.isRequired,
     loadingComponent: PropTypes.any,
+    disableSSR: PropTypes.bool,
   };
 
   static defaultProps = {
     loadingComponent: R.always(null),
     keyValue: null,
+    disableSSR: false,
   };
 
   constructor(props) {
@@ -27,12 +29,13 @@ class AsyncComponent extends React.Component {
     const {
       promiseFn,
       asyncContext,
+      disableSSR,
     } = props;
 
     const uuid = asyncContext.generateUUID();
     const cacheData = asyncContext.cache && asyncContext.cache[uuid];
 
-    if (cacheData) {
+    if (cacheData && !disableSSR) {
       this.state = {
         loading: false,
         data: cacheData,
@@ -43,7 +46,7 @@ class AsyncComponent extends React.Component {
       };
     }
 
-    if (ssr && asyncContext.attachPromise)
+    if (!disableSSR && ssr && asyncContext.attachPromise)
       asyncContext.attachPromise(uuid, promiseFn());
   }
 
@@ -92,6 +95,6 @@ class AsyncComponent extends React.Component {
     if (loading)
       return <LoadingComponent />;
 
-    return children(data);
+    return children(data) || null;
   }
 }

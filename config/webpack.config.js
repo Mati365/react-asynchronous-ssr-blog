@@ -1,9 +1,14 @@
 const {resolve} = require('path');
+const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
+
+require('dotenv').config({
+  path: resolve(__dirname, '../.env'),
+});
 
 const OUTPUT_FOLDER = resolve(__dirname, '../dist');
 
@@ -126,6 +131,10 @@ module.exports = [
           root: resolve(__dirname, '../'),
         },
       ),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'process.env.API_URL': JSON.stringify(process.env.API_URL),
+      }),
     ],
   }),
 

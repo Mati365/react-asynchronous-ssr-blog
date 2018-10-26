@@ -8,17 +8,17 @@ import handleTimestamps from './decorators/handleTimestamps';
 const Builders = {
   selectReactions: builder => (
     builder
-      .select('Reaction.id', 'name')
+      .select('Reaction.name', 'Reaction.id', 'Reaction.icon')
       .groupBy('ArticleReaction.articleId', 'Reaction.id')
       .count('*')
   ),
 
-  selectNickAndId: builder => builder.select('nick', 'uuid'),
+  selectNickAndId: builder => builder.select('User.nick', 'User.uuid'),
 
   selectTags: builder => (
     builder
-      .select('name', 'id')
-      .limit(5)
+      .select('Tag.name', 'Tag.id')
+      .limit(6)
   ),
 };
 
@@ -30,10 +30,11 @@ class Article extends Model {
   // only for validation
   static jsonSchema = {
     type: 'object',
-    required: ['title', 'userId'],
+    required: ['cover', 'title', 'userId'],
 
     properties: {
       id: {type: 'number'},
+      cover: {type: 'string'},
       userId: {type: 'number'},
       content: {type: 'string'},
       title: {
@@ -46,7 +47,27 @@ class Article extends Model {
 
   static QueryBuilder = class extends QueryBuilder {
     $pickDescriptionFields() {
+      // user(selectNickAndId), tags(selectTags), reactions(selectReactions)
       return super.eager('[user(selectNickAndId), tags(selectTags), reactions(selectReactions)]', Builders);
+    }
+
+    $pickListFields() {
+      return super.select(
+        'Article.id', 'Article.cover', 'Article.title',
+        'Article.createdAt', 'Article.updatedAt',
+      );
+    }
+
+    $filterByTags(tags) {
+      return this
+        .whereExists(
+          Article
+            .relatedQuery('tags')
+            .where('id', 'in', tags), // [req.params.tagId]),
+        )
+        .$pickListFields()
+        .$pickDescriptionFields()
+        .orderBy('Article.createdAt', 'desc');
     }
   };
 

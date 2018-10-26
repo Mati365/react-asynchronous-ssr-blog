@@ -1,27 +1,92 @@
 import React from 'react';
+import Link from 'react-router-dom/Link';
+import * as R from 'ramda';
+
+import PromotedTags from './PromotedTags';
+
+const HeaderBar = React.memo(
+  () => (
+    <header
+      style={{
+        marginTop: 30,
+        marginBottom: 30,
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+          paddingBottom: 16,
+        }}
+      >
+        <Link
+          to='/'
+          style={{
+            textDecoration: 'none',
+            color: 'inherit',
+          }}
+        >
+          <h2
+            style={{
+              display: 'inline-block',
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            Weird News
+          </h2>
+        </Link>
+
+        <Link
+          to='/'
+          style={{
+            marginLeft: 'auto',
+            textDecoration: 'none',
+          }}
+        >
+          Home page
+        </Link>
+
+        <PromotedTags>
+          {({list}) => console.log(list) || R.map(
+            ({tags: tag}) => (
+              <React.Fragment key={tag.id}>
+                <span
+                  style={{
+                    margin: '0 4px',
+                    color: 'rgba(0, 0, 0, 0.35)',
+                  }}
+                >
+                  |
+                </span>
+                <Link
+                  to={`/article/by-tag/${tag.id}`}
+                  style={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  {`#${tag.name}`}
+                </Link>
+              </React.Fragment>
+            ),
+            R.take(4, list),
+          )}
+        </PromotedTags>
+      </div>
+    </header>
+  ),
+);
 
 const LayoutContainer = ({children}) => (
   <div
     style={{
       width: 800,
       margin: '0 auto',
+      maxWidth: '90vw',
     }}
   >
-    <header
-      style={{
-        marginTop: 40,
-        marginBottom: 40,
-      }}
-    >
-      <h2
-        style={{
-          borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-          paddingBottom: 16,
-        }}
-      >
-        Weird News
-      </h2>
-    </header>
+    <HeaderBar />
 
     {children}
 
