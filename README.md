@@ -1,6 +1,11 @@
 # react-asynchronous-ssr-blog
 School homework project.
 
+### Screens
+![Main](/doc/img/1.png)
+![Article](/doc/img/2.png)
+![Tag](/doc/img/3.png)
+
 ### Run
 ```
 yarn install
