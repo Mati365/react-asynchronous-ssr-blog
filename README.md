@@ -1,5 +1,5 @@
 # react-asynchronous-ssr-blog
-School homework project.
+SPA blog using Asynchronous React SSR components to fetch data from API and display it for SEO. Supports tags, reactions.
 
 ### Screens
 ![Main](/doc/img/1.png)
