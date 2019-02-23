@@ -55,6 +55,18 @@ const createArticles = knex => userId => (
         userId: userId[0],
         ...genTimestamps(),
       },
+
+      {
+        title: 'Super artykuł na jakikolwiek temat',
+        cover: 'https://cdn3-www.dogtime.com/assets/uploads/gallery/funny-dog-memes-part-4/funny-dog-meme-he-pretended-to-throw-the-ball-never-again.jpg',
+        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut vulputate lacus, vitae convallis dolor. Aenean semper diam a ante molestie pellentesque. Nunc quis pellentesque risus, vel tristique nisi. Morbi elit nunc, egestas a mauris in, mollis euismod nisi. Integer nibh arcu, blandit quis neque ut, scelerisque tristique augue. Nam tempus lacus at elit lobortis malesuada. Etiam quis faucibus metus, ut tempus augue. Pellentesque condimentum est id diam ultricies bibendum quis et elit. Vestibulum ullamcorper vestibulum orci at pretium. Integer fringilla eros libero, nec rhoncus risus tempus vitae. Donec auctor magna vitae pulvinar consectetur. Pellentesque tempor tincidunt lobortis. Suspendisse eu laoreet justo, a dictum nisi.
+        Donec feugiat nec neque ac dapibus. Vestibulum mauris lectus, tristique sit amet tortor at, euismod vulputate ligula. Vestibulum vel justo ante. Proin nec purus viverra, tempor eros eget, iaculis purus. Vivamus commodo, massa ut dapibus efficitur, ex dolor tincidunt neque, in fermentum ligula magna at massa. Ut gravida velit nulla, eu dictum turpis varius nec. Aliquam aliquam eleifend turpis non porttitor. Vivamus est quam, vulputate ac ante non, varius fringilla quam. Nam ultrices justo sit amet dui suscipit, mattis mattis dolor sodales. Sed vitae magna nunc. Vivamus hendrerit sed odio ac gravida. Phasellus dignissim imperdiet ex vitae vulputate.
+        Proin eros urna, ornare sit amet convallis ac, fermentum eget nulla. Donec at orci aliquam, lacinia sem non, molestie erat. Morbi rhoncus nunc eget viverra efficitur. Morbi feugiat odio eget odio consequat ornare. Morbi eget eros condimentum, mollis urna eu, maximus lacus. Vestibulum tempor sollicitudin ornare. Ut ac facilisis lectus. Etiam lorem quam, rutrum sit amet suscipit sit amet, auctor a lectus. Sed leo magna, venenatis sit amet urna vitae, aliquet pellentesque felis. Duis scelerisque nibh orci, et lacinia erat aliquet sed. Duis sed semper tellus, sed pulvinar nulla.
+        Morbi eget varius nisl, vel malesuada eros. Curabitur volutpat erat quam, ut vulputate mauris consequat et. Fusce congue arcu nec lacus viverra tincidunt. In hac habitasse platea dictumst. Integer lectus nibh, egestas facilisis felis sed, tempus venenatis velit. Mauris vitae accumsan erat, at pharetra ex. Sed fermentum tortor eget nibh ornare scelerisque. Nulla non vulputate quam. Cras varius accumsan felis vitae rutrum. Aliquam fringilla, eros sit amet pellentesque luctus, ex nibh elementum ipsum, ut rhoncus urna nibh quis ante.
+        Vestibulum malesuada justo sed turpis placerat, quis mattis sapien ullamcorper. Donec vitae ullamcorper mauris. Phasellus id feugiat leo. Integer semper mi eu suscipit tincidunt. Aliquam efficitur finibus dolor. Nam eget cursus neque. Vestibulum lorem mauris, volutpat quis turpis at, pharetra euismod felis.`,
+        userId: userId[1],
+        ...genTimestamps(),
+      },
     ])
     .returning('id')
     .into('Article')

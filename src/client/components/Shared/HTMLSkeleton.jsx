@@ -57,6 +57,7 @@ const HTMLSkeleton = ({
           `}
         </style>
 
+        <script src='https://rawgit.com/abdmob/x2js/master/xml2json.min.js' />
         {title && (
           <title>{title}</title>
         )}

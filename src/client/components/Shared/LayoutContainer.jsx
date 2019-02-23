@@ -49,7 +49,7 @@ const HeaderBar = React.memo(
         </Link>
 
         <PromotedTags>
-          {({list}) => console.log(list) || R.map(
+          {({list}) => R.map(
             ({tags: tag}) => (
               <React.Fragment key={tag.id}>
                 <span
@@ -99,6 +99,7 @@ const LayoutContainer = ({children}) => (
         fontSize: 12,
         color: '#808080',
         paddingTop: 10,
+        marginBottom: 20,
       }}
     >
       <span>
@@ -110,7 +111,8 @@ const LayoutContainer = ({children}) => (
           marginLeft: 'auto',
         }}
       >
-        Author: Mateusz Bagiński
+        Authors:
+        <span style={{margin: '0 0 0 10px'}}>Mateusz Bagiński i Adam Iwaszkiewicz</span>
       </span>
     </footer>
   </div>
